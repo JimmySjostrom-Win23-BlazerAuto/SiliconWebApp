@@ -1,0 +1,129 @@
+.showcase {
+    position: relative;
+    padding: 100px;
+    margin-bottom: 50px;
+   
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+
+        .content {
+            width: 40%;
+
+            @media (max-width: 1400px) {
+                width: 100%;
+                text-align: left;
+            }
+
+            @media (max-width: 1200px) {
+                width: 60%;
+            }
+
+            @media (max-width: 992px) {
+                min-width: 50%;
+                align-items: center;
+                justify-content: center;
+            }
+
+            @media (max-width: 768px) {
+                text-align: left;
+                justify-content: left;
+                width: 40%;
+                margin: auto -25px;
+            }
+
+            h1 {
+                font-size: 24px;
+
+                @media (min-width: 1200px) {
+                    font-size: 32px;
+                }
+            }
+
+            p {
+                margin: 20px 0 40px;
+                font-size: 16px;
+
+                @media (min-width: 1200px) {
+                    margin: 40px 0 50px;
+                    font-size: 18px;
+                }
+            }
+
+            .btn-theme-s {
+                display: inline-block;
+            }
+
+            h6 {
+                margin: 150px 0 30px 0;
+                display: none;
+
+                @media (min-width: 1200px) {
+                    margin: 100px 0 30px 0;
+                    display: flex;
+                }
+            }
+
+            .brands {
+                gap: 30px;
+
+                @media (max-width: 1400px) {
+                    display: flex;
+
+                    img {
+                        height: 120px;
+                    }
+                }
+
+                @media (max-width: 1200px) {
+                    display: flex;
+
+                    img {
+                        height: 50px;
+                    }
+                }
+
+                @media (max-width: 992px) {
+                    display: grid;
+                    grid-template-columns: auto auto;
+                    align-items: center;
+
+                    img {
+                        height: 50px;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    display: grid;
+                    grid-template-columns: auto;
+                    padding-top: 30px;
+                    align-items: center;
+
+                    img {
+                        height: 40px;
+                    }
+                }
+
+                img {
+                    width: 120px;
+                }
+            }
+        }
+
+        img.background-image {
+            width: 100%;
+            display: none;
+
+            @media (min-width: 1200px) {
+                width: 45%;
+                display: block;
+                right: 0;
+                top: -10px;
+                position: absolute;
+            }
+        }
+    }
+}

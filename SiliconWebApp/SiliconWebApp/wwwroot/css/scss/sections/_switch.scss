@@ -1,0 +1,59 @@
+.darklight {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(to right, #000000 50%, #ffffff 50%);
+
+    .dark-bg {
+    }
+
+    .container {
+        text-align: center;
+
+        .title {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+
+            h1 {
+                flex: 1;
+            }
+
+            .light {
+                color: var(--color-white);
+                text-align: right;
+            }
+
+            .dark {
+                text-align: left;
+                margin-left: 50px;
+                color: var(--color-gray-900);
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    }
+
+    @media (min-width: 768px) {
+        .container {
+            max-width: 768px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .container {
+            max-width: 992px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 1200px;
+        }
+    }
+}

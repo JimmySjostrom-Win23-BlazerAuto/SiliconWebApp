@@ -1,0 +1,66 @@
+﻿<header>
+    <div class="container">
+        <a id="logo" href="/">
+            <img src="/images/Silicon-Logotype-Light.svg" alt="Silicon Logo" />
+        </a>
+
+        <div id="menu">
+            <nav>
+                <NavLink class="menu-link" href="/#showcase">Overview</NavLink>
+                <NavLink class="menu-link" href="/#features">Features</NavLink>
+
+                <AuthorizeView>
+                    <Authorized>
+                        <NavLink class="menu-link" href="/courses">Courses</NavLink>
+                        <NavLink href="/account/manage">Account</NavLink>
+
+
+                     </Authorized>
+                </AuthorizeView>
+
+                <NavLink class="menu-link" href="/contact">Contact</NavLink>
+
+            </nav>
+        </div>
+
+        <div id="theme-switch" class="btn-switch">
+            <label>Light</label>
+            <label class="switch" for="switch-mode">
+                <input type="checkbox" id="switch-mode" />
+                <span class="slider round"></span>
+            </label>
+            <label>Dark</label>
+        </div>
+
+        <div id="account-buttons">
+
+            <AuthorizeView>
+                <Authorized>
+                    <div class="profile">
+                        <div class="profile-image">
+                            <a href="/account/manage">
+                                <img src="~/images/uploads/profiles/" />
+                            </a>
+                        </div>
+                    </div>
+                    <a href="/signout" class="btn-theme"><i class="fa-regular fa-right-from-bracket"></i><span>Sign Out</span></a>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/account/login" class="btn-theme"><i class="fa-regular fa-circle-right"></i><span>Sign In</span></a>
+                    <a href="/account/signup" class="btn-theme"><i class="fa-regular fa-user"></i><span>Sign Up</span></a>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+        <div class="btn-mobile" onclick="toggleMenu()">
+            <button>
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <nav id="mobile-menu" class="hide">
+                <ul>
+                    <li><NavLink href="#">Menu Item 1</NavLink></li>
+                    <li><NavLink href="#">Menu Item 2</NavLink></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>

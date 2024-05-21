@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiliconWebApp", "SiliconWebApp\SiliconWebApp\SiliconWebApp.csproj", "{52C690D2-9F13-4A62-9F5B-E0DC04CD50DB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiliconWebApp.Client", "SiliconWebApp\SiliconWebApp.Client\SiliconWebApp.Client.csproj", "{F6C97B30-D4EA-49BC-8987-0DF53FC93585}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52C690D2-9F13-4A62-9F5B-E0DC04CD50DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52C690D2-9F13-4A62-9F5B-E0DC04CD50DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52C690D2-9F13-4A62-9F5B-E0DC04CD50DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52C690D2-9F13-4A62-9F5B-E0DC04CD50DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6C97B30-D4EA-49BC-8987-0DF53FC93585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C97B30-D4EA-49BC-8987-0DF53FC93585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C97B30-D4EA-49BC-8987-0DF53FC93585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C97B30-D4EA-49BC-8987-0DF53FC93585}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3E51140-EEFF-4456-8EDF-8922AF59367A}
+	EndGlobalSection
+EndGlobal
