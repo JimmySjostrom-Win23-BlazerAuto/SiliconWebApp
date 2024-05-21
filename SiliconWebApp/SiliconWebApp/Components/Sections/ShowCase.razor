@@ -1,1 +1,83 @@
-﻿hej
+﻿@using SiliconWebApp.Entities
+@using SiliconWebApp.Services
+
+@if (viewModel != null)
+{
+    <section class="showcase">
+        <div class="container">
+            <div class="content">
+                <h1>@viewModel.Title</h1>
+                <p>@viewModel.Text</p>
+                <a class="btn-theme-s" href="@viewModel.LinkName">@viewModel.LinkText</a>
+                <h6>@viewModel.BrandsText</h6>
+                <div class="brands">
+                    @if (viewModel.Brands != null)
+                    {
+                        foreach (var brand in viewModel.Brands)
+                        {
+                            <img src="@brand.ImageUrl" alt="@brand.AltText" />
+                        }
+                    }
+                </div>
+            </div>
+            <img class="background-image" src="@viewModel.ShowCaseImage.ImageUrl" alt="@viewModel.ShowCaseImage.AltText" />
+        </div>
+    </section>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    private ShowCaseModel? viewModel;
+
+    public class ShowCaseModel
+    {
+        public string? Id { get; set; }
+        public ImageModel ShowCaseImage { get; set; } = null!;
+        public string? Title { get; set; }
+        public string? Text { get; set; }
+        public string? BrandsText { get; set; }
+        public string LinkName { get; set; } = null!;
+        public string LinkText { get; set; } = null!;
+        public List<BrandModel>? Brands { get; set; }
+    }
+
+    public class ImageModel
+    {
+        public string ImageUrl { get; set; } = null!;
+        public string AltText { get; set; } = null!;
+    }
+
+    public class BrandModel
+    {
+        public string ImageUrl { get; set; } = null!;
+        public string AltText { get; set; } = null!;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadShowCaseAsync();
+    }
+
+    private async Task LoadShowCaseAsync()
+    {
+        viewModel = new ShowCaseModel
+            {
+                Title = "Ultimate Task Management Assistant",
+                ShowCaseImage = new ImageModel { ImageUrl = "images/showcase-taskmaster.svg", AltText = "Task Management Assistant" },
+                Text = "We offer you a new generation of task management system. Plan, manage and track all your tasks in one flexible tool.",
+                LinkName = "Downloads",
+                LinkText = "Get started for free!",
+                BrandsText = "Largest companies use our tool to work efficiently",
+                Brands = new List<BrandModel>
+            {
+                new BrandModel { ImageUrl = "/images/brand_1.svg", AltText = "Brand 1 logo" },
+                new BrandModel { ImageUrl = "/images/brand_2.svg", AltText = "Brand 2 logo" },
+                new BrandModel { ImageUrl = "/images/brand_3.svg", AltText = "Brand 3 logo" },
+                new BrandModel { ImageUrl = "/images/brand_4.svg", AltText = "Brand 4 logo" }
+            }
+            };
+    }
+}
