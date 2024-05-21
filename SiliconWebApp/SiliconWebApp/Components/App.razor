@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" @* class="@themeMode" *@>
 
 <head>
     <meta charset="utf-8" />
@@ -14,8 +14,16 @@
 </head>
 
 <body>
-    <Routes />
-    <script src="_framework/blazor.web.js"></script>
+    <div class="wrapper">
+      <Routes />
+     <script src="_framework/blazor.web.js"></script>
+    </div>
+
+    @* <partial name="_CookieConsent" /> *@
 </body>
 
 </html>
+
+@code {
+    // var themeMode = Context.Request.Cookies["ThemeMode"] ?? "light";
+}

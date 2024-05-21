@@ -1,4 +1,7 @@
+using SiliconWebApp.Repositories;
+using SiliconWebApp.Services;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SiliconWebApp.Components;
@@ -28,6 +31,7 @@ builder.Services.AddAuthentication(options =>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
@@ -41,6 +45,15 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
 	.AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+// Repositories
+builder.Services.AddScoped<FeatureRepository>();
+builder.Services.AddScoped<FeatureItemRepository>();
+
+//// Services
+//builder.Services.AddScoped<AddressService>();
+//builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<FeatureService>();
 
 var app = builder.Build();
 

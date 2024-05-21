@@ -1,0 +1,50 @@
+﻿@using SiliconWebApp.Entities
+@using SiliconWebApp.Services
+
+@inject FeatureService _featureService
+
+@if (feature != null)
+{
+    <section class="features">
+        <div class="container">
+            <h1>@feature.Title</h1>
+            <p>@feature.Ingress</p>
+            <div class="tool-features">
+                @foreach (var item in feature.FeatureItems)
+                {
+                    <div class="box">
+                        <img src="@item.ImageUrl" alt="@item.Title" />
+                        <h5>@item.Title</h5>
+                        <p>@item.Text</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    private FeatureEntity? feature;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFeaturesAsync();
+    }
+
+    private async Task LoadFeaturesAsync()
+    {
+        var result = await _featureService.GetAllFeaturesAsync();
+
+        Console.WriteLine(result);
+
+        if (result.ContentResult is List<FeatureEntity> content)
+        {
+            feature = content.FirstOrDefault();
+            Console.WriteLine(feature);
+        }
+    }
+}
