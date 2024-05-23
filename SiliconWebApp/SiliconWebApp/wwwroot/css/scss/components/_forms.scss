@@ -8,6 +8,13 @@ form {
         display: grid;
     }
 
+    .validation-message {
+        font-size: 14px;
+        font-weight: 400 !important;
+        color: var(--color-danger-dark);
+        padding: 2px 5px;
+    }
+
     .checkbox {
         span {
             display: block;

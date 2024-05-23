@@ -10,62 +10,68 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Log in</PageTitle>
+<PageTitle>Sign In</PageTitle>
 
-<h1>Log in</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <StatusMessage Message="@errorMessage" />
-            <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
-                <DataAnnotationsValidator />
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <ValidationSummary class="text-danger" role="alert" />
-                <div class="form-floating mb-3">
+<section id="signin">
+	<div class="container">
+
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <div class="alerter">
+                <div class="alert alert-danger">
+                   @ErrorMessage
+                </div>
+            </div>
+        }
+
+    <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" OnValidSubmit="LoginUser" FormName="login" method="post" novalidate>
+        <DataAnnotationsValidator />
+
+    <h1>Welcome back!</h1>
+	<p>Don't have an account yet? <a href="/signup">Sign up here></a></p>
+
+	    <div class="content">
+        	<div id="form-email" class="input-group">
                     <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                     <label for="email" class="form-label">Email</label>
                     <ValidationMessage For="() => Input.Email" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
+            </div>
+    		<div id="form-password" class="input-group">
                     <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
                     <label for="password" class="form-label">Password</label>
                     <ValidationMessage For="() => Input.Password" class="text-danger" />
+	    	</div>
+    		<div id="form-remember" class="checkbox">
+	    	    <div class="checkbox-group">
+                    <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
+                     <label>Remember me</label>
+	    		</div>
+	    	</div>
+		
+        
+
+                <div id="form-submit">
+                    <button class="btn-theme-s" type="submit">Sign In</button>
                 </div>
-                <div class="checkbox mb-3">
-                    <label class="form-label">
-                        <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
-                        Remember me
-                    </label>
-                </div>
-                <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a href="Account/ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </EditForm>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            <ExternalLoginPicker />
-        </section>
-    </div>
-</div>
+
+		<a id="form-forgot-password" asp-controller="Account" asp-action="Forgot">Forgot your password?</a>
+	    </div>
+
+		<div class="external-providers">
+		    <h6>Or Sign in with your social account</h6>
+			    <div class="providers">
+				    <div class="btn-group">
+						<a class="btn-gray" asp-action="Google" asp-controller="Auth"><i class="fa-brands fa-google"></i> Google</a>
+						<a class="btn-gray" asp-action="Facebook" asp-controller="Auth"><i class="fa-brands fa-facebook"></i> Facebook</a>
+					</div>
+				</div>
+			</div>
+		</EditForm>
+	</div>
+</section>
 
 @code {
-    private string? errorMessage;
+    private string? ErrorMessage;
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -108,7 +114,7 @@
         }
         else
         {
-            errorMessage = "Error: Invalid login attempt.";
+            ErrorMessage = "Error: Invalid login attempt.";
         }
     }
 

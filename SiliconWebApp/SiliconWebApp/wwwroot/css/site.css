@@ -565,6 +565,12 @@ form {
 form .input-group {
   display: grid;
 }
+form .validation-message {
+  font-size: 14px;
+  font-weight: 400 !important;
+  color: var(--color-danger-dark);
+  padding: 2px 5px;
+}
 form .checkbox span {
   display: block;
 }
@@ -1231,6 +1237,7 @@ footer .container .social-media {
 }
 #signin .container form {
   padding: 1rem;
+  width: 100%;
 }
 #signin .container form .content {
   display: grid;
@@ -1238,23 +1245,52 @@ footer .container .social-media {
   grid-template-columns: 1fr;
   grid-template-areas: "email" "password" "remember" "button" "forgot";
 }
-#signin .container form .content #form-email {
-  grid-area: email;
-}
-#signin .container form .content #form-password {
-  grid-area: password;
-}
-#signin .container form .content #form-forgot-remember {
-  grid-area: remember;
-  padding: 1rem 0;
-}
-#signin .container form .content #form-button {
-  grid-area: button;
-}
+#signin .container form .content #form-email,
+#signin .container form .content #form-password,
+#signin .container form .content #form-remember,
+#signin .container form .content #form-button,
 #signin .container form .content #form-forgot-password {
-  grid-area: forgot;
-  margin: 1rem 0 0 0;
-  text-align: center;
+  width: 100%;
+}
+#signin .container form .content .input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+#signin .container form .content .input-group .form-control {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+#signin .container form .content .input-group .form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+#signin .container form .content .input-group .form-label {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+#signin .container form .content .checkbox-group {
+  display: flex;
+  align-items: center;
+}
+#signin .container form .content .checkbox-group .form-check-input {
+  margin-right: 0.5rem;
+  width: auto;
+  height: auto;
+}
+#signin .container form .content .checkbox-group label {
+  font-size: 1rem;
+}
+#signin .container form .content .btn-theme-s {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  width: 100%;
 }
 #signin .external-providers {
   text-align: center;

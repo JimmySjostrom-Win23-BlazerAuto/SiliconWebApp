@@ -1,5 +1,4 @@
 #signin {
-    //  height: 100%;
     margin-top: 30px;
 
     .container {
@@ -9,44 +8,79 @@
         align-items: center;
         height: 100%;
 
-        @include lg {
+        @media (min-width: 992px) {
             width: 60%;
         }
 
-        @include xl {
+        @media (min-width: 1200px) {
             width: 40%;
         }
 
         form {
             padding: 1rem;
+            width: 100%;
 
             .content {
                 display: grid;
                 gap: 1rem 2rem;
                 grid-template-columns: 1fr;
-                grid-template-areas: "email" "password" "remember" "button" "forgot";
+                grid-template-areas:
+                    "email" "password" "remember" "button" "forgot";
 
-                #form-email {
-                    grid-area: email;
-                }
-
-                #form-password {
-                    grid-area: password;
-                }
-
-                #form-forgot-remember {
-                    grid-area: remember;
-                    padding: 1rem 0;
-                }
-
-                #form-button {
-                    grid-area: button;
-                }
-
+                #form-email,
+                #form-password,
+                #form-remember,
+                #form-button,
                 #form-forgot-password {
-                    grid-area: forgot;
-                    margin: 1rem 0 0 0;
-                    text-align: center;
+                    width: 100%;
+                }
+
+                .input-group {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    width: 100%;
+
+                    .form-control {
+                        width: 100%;
+                        padding: 0.5rem;
+                        font-size: 1rem;
+                        border: 1px solid #ced4da;
+                        border-radius: 0.25rem;
+                        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                    }
+
+                    .form-control:focus {
+                        border-color: #80bdff;
+                        outline: 0;
+                        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                    }
+
+                    .form-label {
+                        margin-top: 0.5rem;
+                        font-size: 1rem;
+                    }
+                }
+
+                .checkbox-group {
+                    display: flex;
+                    align-items: center;
+
+                    .form-check-input {
+                        margin-right: 0.5rem;
+                        width: auto;
+                        height: auto;
+                    }
+
+                    label {
+                        font-size: 1rem;
+                    }
+                }
+
+                .btn-theme-s {
+                    padding: 0.5rem 1rem;
+                    font-size: 1rem;
+                    width: 100%;
                 }
             }
         }
@@ -66,13 +100,13 @@
             align-items: center;
 
             .btn-theme-s {
-                margin-top: 10px; 
+                margin-top: 10px;
             }
 
             .btn-group {
                 display: flex;
                 justify-content: center;
-                gap: 10px; 
+                gap: 10px;
             }
         }
     }
