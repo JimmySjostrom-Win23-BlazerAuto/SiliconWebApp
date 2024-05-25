@@ -70,7 +70,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		var query = new GraphQLQuery { Query = "{getCourses { id isBestseller title authors { name } prices { price currency discount } hours likesInProcent likes imageUri }}" };
-		var response = await Http.PostAsJsonAsync("http://localhost:7205/api/graphql", query);
+		var response = await Http.PostAsJsonAsync("https://courseprovider-js.azurewebsites.net/api/graphql?code=EgqwsylmzpLETaxlEGIn2eejQhTsqWNK6pPLpkIML-UfAzFu4AXpBQ%3D%3D", query);
 
 		if (response.IsSuccessStatusCode)
 		{
