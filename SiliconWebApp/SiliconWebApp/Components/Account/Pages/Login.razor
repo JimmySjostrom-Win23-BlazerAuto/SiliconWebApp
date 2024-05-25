@@ -47,9 +47,6 @@
                      <label>Remember me</label>
 	    		</div>
 	    	</div>
-		
-        
-
                 <div id="form-submit">
                     <button class="btn-theme-s" type="submit">Sign In</button>
                 </div>
@@ -99,7 +96,8 @@
         if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
-            RedirectManager.RedirectTo(ReturnUrl);
+          //   RedirectManager.RedirectTo(ReturnUrl);
+            RedirectManager.RedirectTo("Account/Deets");
         }
         else if (result.RequiresTwoFactor)
         {
