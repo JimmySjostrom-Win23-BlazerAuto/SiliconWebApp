@@ -4,79 +4,88 @@
 
     .container {
 
-        #form-filters {
+        .header {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
-            gap: 1.5rem;
+            margin-bottom: 1rem;
 
-            input:not([type="checkbox"]) {
-                min-width: 300px;
-                font-size: 16px;
-                font-family: "manrope";
-                font-weight: 400 !important;
-                padding: 10px 16px;
-                border-radius: 8px;
-                border: 1px solid var(--color-gray-400);
-            }
 
-            .input-search-group {
-                position: relative;
+            #form-filters {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 1.5rem;
 
-                input {
+                input:not([type="checkbox"]) {
+                    min-width: 300px;
+                    font-size: 16px;
+                    font-family: "manrope";
+                    font-weight: 400 !important;
+                    padding: 10px 16px;
+                    border-radius: 8px;
+                    border: 1px solid var(--color-gray-400);
+                }
+
+                .input-search-group {
                     position: relative;
-                    padding-right: 40px;
+
+                    input {
+                        position: relative;
+                        padding-right: 40px;
+                    }
+
+                    i {
+                        position: absolute;
+                        top: 14px;
+                        right: 1rem;
+                    }
                 }
 
-                i {
+                .select {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .selected {
+                    padding: 8px 16px;
+                    background-color: #f2f2f2;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    border: 1px solid var(--color-gray-400);
+                }
+
+                .select-options {
                     position: absolute;
-                    top: 14px;
-                    right: 1rem;
+                    top: 100%;
+                    left: 0;
+                    z-index: 1;
+                    display: none;
+                    min-width: 200px;
+                    background-color: #fff;
+                    border: 1px solid #ccc;
+                    border-top: none;
+                    border-radius: 0 0 4px 4px;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
                 }
-            }
 
-            .select {
-                position: relative;
-                display: inline-block;
-            }
+                .option {
+                    padding: 8px 16px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                }
 
-            .selected {
-                padding: 8px 16px;
-                background-color: #f2f2f2;
-                border: 1px solid #ccc;
-                border-radius: 8px;
-                cursor: pointer;
-                border: 1px solid var(--color-gray-400);
-            }
+                .option:hover {
+                    background-color: #f2f2f2;
+                }
 
-            .select-options {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                z-index: 1;
-                display: none;
-                min-width: 200px;
-                background-color: #fff;
-                border: 1px solid #ccc;
-                border-top: none;
-                border-radius: 0 0 4px 4px;
-                box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            }
-
-            .option {
-                padding: 8px 16px;
-                cursor: pointer;
-                transition: background-color 0.3s;
-            }
-
-            .option:hover {
-                background-color: #f2f2f2;
-            }
-
-            .select:hover .select-options {
-                display: block;
+                .select:hover .select-options {
+                    display: block;
+                }
             }
         }
+
 
         h1 {
         }
@@ -89,11 +98,11 @@
             margin-bottom: 1rem;
         }
 
-        .items {
+        .course-items {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 2rem;
-
+           
             .course {
                 position: relative;
                 display: block;
