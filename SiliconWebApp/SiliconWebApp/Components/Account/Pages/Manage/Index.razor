@@ -96,9 +96,8 @@
                     </div>
 
                     <div class="form-buttons">
-                       
-                        <button class="btn-theme" type="submit">Save changes</button>
                         <button class="btn-gray" type="reset">Cancel</button>
+                        <button class="btn-theme" type="submit">Save changes</button>
                     </div>
                 </div>
             </EditForm>
@@ -117,14 +116,11 @@
     {
         try
         {
-            // Get the current user
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
-            // Get the user ID
             var userId = UserManager.GetUserId(user);
 
-            // Retrieve the user with the related UserProfile and UserAddress
             var currentUser = await DbContext.Users
                 .Include(u => u.UserProfile)
                 .Include(u => u.UserAddress)
@@ -155,14 +151,11 @@
     {
         try
         {
-            // Get the current user
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
-            // Get the user ID
             var userId = UserManager.GetUserId(user);
 
-            // Retrieve the user with the related UserProfile and UserAddress
             var currentUser = await DbContext.Users
                 .Include(u => u.UserProfile)
                 .Include(u => u.UserAddress)
@@ -170,7 +163,6 @@
 
             if (currentUser != null)
             {
-                // Update UserProfile properties
                 if (currentUser.UserProfile != null)
                 {
                     currentUser.UserProfile.FirstName = EditProfileForm.FirstName;
@@ -179,7 +171,6 @@
                 }
                 else
                 {
-                    // Create a new UserProfile if it doesn't exist
                     currentUser.UserProfile = new UserProfile
                         {
                             FirstName = EditProfileForm.FirstName,
@@ -188,16 +179,13 @@
                         };
                 }
 
-                // Update ApplicationUser properties
                 currentUser.PhoneNumber = EditProfileForm.PhoneNumber;
                 currentUser.Email = EditProfileForm.Email;
 
-                // Update ApplicationUser in the database
                 var result = await UserManager.UpdateAsync(currentUser);
 
                 if (result.Succeeded)
                 {
-                    // Redirect or show success message
                     StatusMessage = "Profile updated successfully!";
                 }
                 else
@@ -217,21 +205,17 @@
     {
         try
         {
-            // Get the current user
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
-            // Get the user ID
             var userId = UserManager.GetUserId(user);
 
-            // Retrieve the user with the related UserAddress
             var currentUser = await DbContext.Users
                 .Include(u => u.UserAddress)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (currentUser != null)
             {
-                // Update UserAddress properties
                 if (currentUser.UserAddress != null)
                 {
                     currentUser.UserAddress.AddressLine_1 = AddressInfoForm.AddressLine_1;
@@ -241,7 +225,6 @@
                 }
                 else
                 {
-                    // Create a new UserAddress if it doesn't exist
                     currentUser.UserAddress = new UserAddress
                         {
                             AddressLine_1 = AddressInfoForm.AddressLine_1,
@@ -251,12 +234,10 @@
                         };
                 }
 
-                // Update ApplicationUser in the database
                 var result = await UserManager.UpdateAsync(currentUser);
 
                 if (result.Succeeded)
                 {
-                    // Redirect or show success message
                     StatusMessage = "Address updated successfully!";
                 }
                 else
