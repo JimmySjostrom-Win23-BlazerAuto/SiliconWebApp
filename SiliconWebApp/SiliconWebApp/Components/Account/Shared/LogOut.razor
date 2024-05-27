@@ -1,0 +1,26 @@
+﻿@page "/logout"
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var returnUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        var content = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("returnUrl", returnUrl)
+        });
+
+        var response = await HttpClient.PostAsync("/Logout", content);
+
+        if (response.IsSuccessStatusCode)
+        {           
+            NavigationManager.NavigateTo(returnUrl, true);
+        }
+        else
+        {           
+            Console.WriteLine("Error logging out.");
+        }
+    }
+}

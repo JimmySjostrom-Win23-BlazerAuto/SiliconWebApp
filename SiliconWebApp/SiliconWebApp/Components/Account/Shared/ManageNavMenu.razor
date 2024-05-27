@@ -1,37 +1,30 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Identity
 @using SiliconWebApp.Data
 
-@inject SignInManager<ApplicationUser> SignInManager
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">Profile</NavLink>
-    </li>
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/Email">Email</NavLink>
-    </li>
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/ChangePassword">Password</NavLink>
-    </li>
-    @if (hasExternalLogins)
-    {
-        <li class="nav-item">
-            <NavLink class="nav-link" href="Account/Manage/ExternalLogins">External logins</NavLink>
-        </li>
-    }
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/TwoFactorAuthentication">Two-factor authentication</NavLink>
-    </li>
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/PersonalData">Personal data</NavLink>
-    </li>
-</ul>
+
+
+    <div class="profile">
+        <div class="profile-image"></div>
+        <div class="profile-info">
+            <NavLink><a class="btn-transparent" href="Account/Manage" Match="NavLinkMatch.All">Profile</a></NavLink>
+            <NavLink><a class="btn-transparent" href="Account/Manage/Index"><i class="fa-solid fa-arrow-right-to-bracket"></i>Profile Info</a></NavLink>
+            <NavLink><a class="btn-transparent" href="Account/Manage/SavedCourses"><i class="fa-solid fa-arrow-right-to-bracket"></i>Saved Courses</a></NavLink>
+            <NavLink><a class="btn-transparent" href="Account/Manage/Security"><i class="fa-solid fa-arrow-right-to-bracket"></i>Security</a></NavLink>
+            <NavLink><a class="btn-transparent" href="Account/Shared/LogOut"><i class="fa-solid fa-arrow-right-to-bracket"></i>Sign Out</a></NavLink>
+        </div>
+    </div>
+
 
 @code {
-    private bool hasExternalLogins;
-
-    protected override async Task OnInitializedAsync()
+    private void HandleSignOut()
     {
-        hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+        NavigationManager.NavigateTo("authentication/logout", forceLoad: true);
     }
 }

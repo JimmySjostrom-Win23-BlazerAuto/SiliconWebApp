@@ -1,77 +1,314 @@
 ﻿@page "/Account/Deets"
-
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.EntityFrameworkCore
 @using SiliconWebApp.Data
 
+@rendermode InteractiveServer
+
 @inject UserManager<ApplicationUser> UserManager
-@inject SignInManager<ApplicationUser> SignInManager
-@inject IdentityUserAccessor UserAccessor
-@inject IdentityRedirectManager RedirectManager
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ApplicationDbContext DbContext
+@inject ILogger<Index> Logger
 
-<PageTitle>Profile</PageTitle>
+<PageTitle>Edit Profile</PageTitle>
 
-<h3>Profile</h3>
-<StatusMessage />
+<div class="details">
+    <div class="basic-info">
+        @if (!string.IsNullOrEmpty(@StatusMessage))
+        {
+            <div class="alert alert-info">@StatusMessage</div>
+        }
 
-<div class="row">
-    <div class="col-md-6">
-        <EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
+        <EditForm Model="EditProfileForm" OnValidSubmit="OnValidSubmitAsync" class="edit-form" FormName="editProfile" method="post" novalidate>
             <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" role="alert" />
-            <div class="form-floating mb-3">
-                <input type="text" value="@username" class="form-control" placeholder="Please choose your username." disabled />
-                <label for="username" class="form-label">Username</label>
+            <h2>Edit Profile</h2>
+
+            <div class="content">
+                <div class="input-group" id="form-firstname">
+                    <label>First Name</label>
+                    <InputText @bind-Value="EditProfileForm.FirstName" />
+                    <ValidationMessage For="() => EditProfileForm.FirstName" />
+                </div>
+
+                <div class="input-group" id="form-lastname">
+                    <label>Last Name</label>
+                    <InputText @bind-Value="EditProfileForm.LastName" />
+                    <ValidationMessage For="() => EditProfileForm.LastName" />
+                </div>
+
+                <div class="input-group" id="form-phone">
+                    <label>Phone Number</label>
+                    <InputText @bind-Value="EditProfileForm.PhoneNumber" />
+                    <ValidationMessage For="() => EditProfileForm.PhoneNumber" />
+                </div>
+
+                <div class="input-group" id="form-email">
+                    <label>Email</label>
+                    <InputText @bind-Value="EditProfileForm.Email" />
+                    <ValidationMessage For="() => EditProfileForm.Email" />
+                </div>
+
+                <div class="input-group" id="form-bio">
+                    <label>Biography</label>
+                    <InputTextArea @bind-Value="EditProfileForm.Biography" />
+                    <ValidationMessage For="() => EditProfileForm.Biography" />
+                </div>
+
+                <div class="form-buttons">
+                    <button class="btn-theme" type="submit">Save changes</button>
+                    <button class="btn-gray" type="reset">Cancel</button>
+                </div>
             </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
-                <label for="phone-number" class="form-label">Phone number</label>
-                <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
-            </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </EditForm>
+
+        <section class="address-info">
+            <h5>Address</h5>
+
+            <EditForm Model="AddressInfoForm" OnValidSubmit="OnValidSubmitAddressAsync" class="edit-form" FormName="addressForm" method="post" novalidate>
+                <DataAnnotationsValidator />
+
+                <div class="content">
+                    <div id="form-addressline-1" class="input-group">
+                        <label>Address Line 1</label>
+                        <InputText @bind-Value="AddressInfoForm.AddressLine_1" />
+                        <ValidationMessage For="() => AddressInfoForm.AddressLine_1" />
+                    </div>
+
+                    <div id="form-addressline-2" class="input-group">
+                        <label>Address line 2<span>(optional)</span></label>
+                        <InputText @bind-Value="AddressInfoForm.AddressLine_2" />
+                        <ValidationMessage For="() => AddressInfoForm.AddressLine_2" />
+                    </div>
+
+                    <div id="form-postalcode" class="input-group">
+                        <label>Postal Code</label>
+                        <InputText @bind-Value="AddressInfoForm.PostalCode" />
+                        <ValidationMessage For="() => AddressInfoForm.PostalCode" />
+                    </div>
+
+                    <div id="form-city" class="input-group">
+                        <label>City</label>
+                        <InputText @bind-Value="AddressInfoForm.City" />
+                        <ValidationMessage For="() => AddressInfoForm.City" />
+                    </div>
+
+                    <div class="form-buttons">
+                       
+                        <button class="btn-theme" type="submit">Save changes</button>
+                        <button class="btn-gray" type="reset">Cancel</button>
+                    </div>
+                </div>
+            </EditForm>
+        </section>
     </div>
 </div>
 
 @code {
-    private ApplicationUser user = default!;
-    private string? username;
-    private string? phoneNumber;
+    [SupplyParameterFromQuery]
+    public string? StatusMessage { get; set; } = "";
 
-    [CascadingParameter]
-    private HttpContext HttpContext { get; set; } = default!;
-
-    [SupplyParameterFromForm]
-    private InputModel Input { get; set; } = new();
+    public EditProfileFormModel EditProfileForm { get; set; } = new();
+    public AddressInfoFormModel AddressInfoForm { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
-        user = await UserAccessor.GetRequiredUserAsync(HttpContext);
-        username = await UserManager.GetUserNameAsync(user);
-        phoneNumber = await UserManager.GetPhoneNumberAsync(user);
-
-        Input.PhoneNumber ??= phoneNumber;
-    }
-
-    private async Task OnValidSubmitAsync()
-    {
-        if (Input.PhoneNumber != phoneNumber)
+        try
         {
-            var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-            if (!setPhoneResult.Succeeded)
+            // Get the current user
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            // Get the user ID
+            var userId = UserManager.GetUserId(user);
+
+            // Retrieve the user with the related UserProfile and UserAddress
+            var currentUser = await DbContext.Users
+                .Include(u => u.UserProfile)
+                .Include(u => u.UserAddress)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (currentUser != null)
             {
-                RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to set phone number.", HttpContext);
+                EditProfileForm.FirstName = currentUser.UserProfile?.FirstName ?? "";
+                EditProfileForm.LastName = currentUser.UserProfile?.LastName ?? "";
+                EditProfileForm.PhoneNumber = currentUser.PhoneNumber ?? "";
+                EditProfileForm.Email = currentUser.Email ?? "";
+                EditProfileForm.Biography = currentUser.UserProfile?.Biography ?? "";
+
+                AddressInfoForm.AddressLine_1 = currentUser.UserAddress?.AddressLine_1 ?? "";
+                AddressInfoForm.AddressLine_2 = currentUser.UserAddress?.AddressLine_2 ?? "";
+                AddressInfoForm.PostalCode = currentUser.UserAddress?.PostalCode ?? "";
+                AddressInfoForm.City = currentUser.UserAddress?.City ?? "";
             }
         }
-
-        await SignInManager.RefreshSignInAsync(user);
-        RedirectManager.RedirectToCurrentPageWithStatus("Your profile has been updated", HttpContext);
+        catch (Exception ex)
+        {
+            StatusMessage = "An error occurred while fetching user profile.";
+            Logger.LogError($"Error fetching user profile: {ex.Message}");
+        }
     }
 
-    private sealed class InputModel
+    public async Task OnValidSubmitAsync()
     {
-        [Phone]
-        [Display(Name = "Phone number")]
-        public string? PhoneNumber { get; set; }
+        try
+        {
+            // Get the current user
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            // Get the user ID
+            var userId = UserManager.GetUserId(user);
+
+            // Retrieve the user with the related UserProfile and UserAddress
+            var currentUser = await DbContext.Users
+                .Include(u => u.UserProfile)
+                .Include(u => u.UserAddress)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (currentUser != null)
+            {
+                // Update UserProfile properties
+                if (currentUser.UserProfile != null)
+                {
+                    currentUser.UserProfile.FirstName = EditProfileForm.FirstName;
+                    currentUser.UserProfile.LastName = EditProfileForm.LastName;
+                    currentUser.UserProfile.Biography = EditProfileForm.Biography;
+                }
+                else
+                {
+                    // Create a new UserProfile if it doesn't exist
+                    currentUser.UserProfile = new UserProfile
+                        {
+                            FirstName = EditProfileForm.FirstName,
+                            LastName = EditProfileForm.LastName,
+                            Biography = EditProfileForm.Biography
+                        };
+                }
+
+                // Update ApplicationUser properties
+                currentUser.PhoneNumber = EditProfileForm.PhoneNumber;
+                currentUser.Email = EditProfileForm.Email;
+
+                // Update ApplicationUser in the database
+                var result = await UserManager.UpdateAsync(currentUser);
+
+                if (result.Succeeded)
+                {
+                    // Redirect or show success message
+                    StatusMessage = "Profile updated successfully!";
+                }
+                else
+                {
+                    StatusMessage = "Error updating profile.";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = "An error occurred while updating profile.";
+            Logger.LogError($"Error updating profile: {ex.Message}");
+        }
+    }
+
+    public async Task OnValidSubmitAddressAsync()
+    {
+        try
+        {
+            // Get the current user
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            // Get the user ID
+            var userId = UserManager.GetUserId(user);
+
+            // Retrieve the user with the related UserAddress
+            var currentUser = await DbContext.Users
+                .Include(u => u.UserAddress)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (currentUser != null)
+            {
+                // Update UserAddress properties
+                if (currentUser.UserAddress != null)
+                {
+                    currentUser.UserAddress.AddressLine_1 = AddressInfoForm.AddressLine_1;
+                    currentUser.UserAddress.AddressLine_2 = AddressInfoForm.AddressLine_2;
+                    currentUser.UserAddress.PostalCode = AddressInfoForm.PostalCode;
+                    currentUser.UserAddress.City = AddressInfoForm.City;
+                }
+                else
+                {
+                    // Create a new UserAddress if it doesn't exist
+                    currentUser.UserAddress = new UserAddress
+                        {
+                            AddressLine_1 = AddressInfoForm.AddressLine_1,
+                            AddressLine_2 = AddressInfoForm.AddressLine_2,
+                            PostalCode = AddressInfoForm.PostalCode,
+                            City = AddressInfoForm.City
+                        };
+                }
+
+                // Update ApplicationUser in the database
+                var result = await UserManager.UpdateAsync(currentUser);
+
+                if (result.Succeeded)
+                {
+                    // Redirect or show success message
+                    StatusMessage = "Address updated successfully!";
+                }
+                else
+                {
+                    StatusMessage = "Error updating address.";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = "An error occurred while updating address.";
+            Logger.LogError($"Error updating address: {ex.Message}");
+        }
+    }
+
+    public class EditProfileFormModel
+    {
+        [Display(Name = "First Name")]
+        [Required(ErrorMessage = "First name is required")]
+        public string FirstName { get; set; } = "";
+
+        [Display(Name = "Last Name")]
+        [Required(ErrorMessage = "Last name is required")]
+        public string LastName { get; set; } = "";
+
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; } = "";
+
+        [Display(Name = "Email")]
+        [Required(ErrorMessage = "Email address is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = "";
+
+        [Display(Name = "Biography")]
+        public string Biography { get; set; } = "";
+    }
+
+    public class AddressInfoFormModel
+    {
+        [Display(Name = "Address Line 1")]
+        [Required(ErrorMessage = "Address line 1 is required")]
+        public string AddressLine_1 { get; set; } = "";
+
+        [Display(Name = "Address Line 2")]
+        public string? AddressLine_2 { get; set; }
+
+        [Display(Name = "Postal Code")]
+        [Required(ErrorMessage = "Postal code is required")]
+        public string PostalCode { get; set; } = "";
+
+        [Display(Name = "City")]
+        [Required(ErrorMessage = "City is required")]
+        public string City { get; set; } = "";
     }
 }

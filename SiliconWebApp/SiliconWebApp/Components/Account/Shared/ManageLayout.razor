@@ -1,17 +1,23 @@
 ﻿@inherits LayoutComponentBase
 @layout AccountLayout
 
-<h1>Manage your account</h1>
 
-<div>
-    <h2>Change your account settings</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
+
+<SiliconWebApp.Components.Pages.Shared.Header />
+
+<section class="account-deets">
+    <div class="container">
+        <aside>
             <ManageNavMenu />
-        </div>
-        <div class="col-md-9">
+        </aside>
+        <div class="content">
             @Body
         </div>
     </div>
-</div>
+</section>
+
+<SiliconWebApp.Components.Pages.Shared.Footer />
+
+@code {
+
+}

@@ -1,14 +1,25 @@
-#account-deets {
-    display: grid;
+.account-deets {
+    /*    display: grid;
     grid-template-columns: 2fr 5fr;
     gap: 150px;
-    margin-bottom: 70px;
+    margin-bottom: 70px;*/
+
+    height: 100%;
+
+    .container {
+        height: 100%;
+        display: grid;
+        gap: 50px;
+        grid-template-columns: 2fr 5fr;
+    }
 
     aside {
         border-right: 1px solid var(--color-gray-300);
         padding-right: 20px;
 
         .profile {
+            text-align: center;
+
 
             .profile-image {
                 position: relative;
@@ -50,21 +61,23 @@
                     }
                 }
             }
+
+            .profile-info {
+                margin: 20px;
+                text-align: left;
+
+                h5 {
+                    margin-top: 15px;
+                    margin-bottom: 0;
+                }
+
+                p {
+                    @include text-m;
+                }
+            }
         }
 
-        .profile-info {
-            margin: 20px;
-            text-align: left;
 
-            h5 {
-                margin-top: 15px;
-                margin-bottom: 0;
-            }
-
-            p {
-                @include text-m;
-            }
-        }
 
         nav {
             margin-top: 50px;
@@ -88,11 +101,16 @@
 
         .basic-info {
 
-            form {
+            .edit-form {
                 padding: 1rem;
+                padding-bottom: 50px;
+                border-bottom: 1px solid var(--color-gray-300);
 
-                h5 {
+
+                h2 {
                     color: var(--color-theme);
+                    text-align: left;
+                    padding-top: 30px;
                 }
 
                 .content {
@@ -137,32 +155,28 @@
         }
 
         .address-info {
-            margin-top: 30px;
+            margin-top: 2rem;
 
-            form {
-                padding: 1rem;
+            h5 {
+                margin-bottom: 1rem;
+            }
 
-                h5 {
-                    color: var(--color-theme);
-                }
+            .edit-form {
+        
 
                 .content {
                     display: grid;
                     gap: 1rem 2rem;
                     grid-template-columns: 1fr 1fr;
-                    grid-template-areas: "addressline_1 addressline_1" "addressline_2 addressline_2" "postalcode city" "buttons buttons";
+                    grid-template-areas:
+                        "addressline1 addressline1" "addressline2 addressline2" "postalcode city" "buttons buttons";
 
-                    #form-adressline-1 {
-                        grid-area: addressline_1;
+                    #form-addressline-1 {
+                        grid-area: addressline1;
                     }
 
-                    #form-adressline-2 {
-                        grid-area: addressline_2;
-
-                        span {
-                            color: var(--color-gray-500);
-                            font-weight: 400;
-                        }
+                    #form-addressline-2 {
+                        grid-area: addressline2;
                     }
 
                     #form-postalcode {

@@ -21,6 +21,8 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddAuthentication(options =>
 	{
 		options.DefaultScheme = IdentityConstants.ApplicationScheme;
@@ -49,7 +51,7 @@ builder.Services.ConfigureApplicationCookie(x =>
 	x.LoginPath = "/account/login";
 	x.Cookie.HttpOnly = true;
 	x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-	x.ExpireTimeSpan = TimeSpan.FromDays(1);
+	x.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 	x.SlidingExpiration = true;
 });
 
@@ -59,10 +61,13 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 builder.Services.AddScoped<FeatureRepository>();
 builder.Services.AddScoped<FeatureItemRepository>();
 
+
+
 //// Services
 //builder.Services.AddScoped<AddressService>();
 //builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<FeatureService>();
+
 
 var app = builder.Build();
 
