@@ -30,6 +30,15 @@ builder.Services.AddAuthentication(options =>
 	})
 	.AddIdentityCookies();
 
+builder.Services.AddAuthorization(x =>
+{
+    x.AddPolicy("SuperAdmins", policy => policy.RequireRole("SuperAdmin"));
+    x.AddPolicy("Admins", policy => policy.RequireRole("SuperAdmin", "Admin"));
+    x.AddPolicy("Managers", policy => policy.RequireRole("Admin", "SuperAdmin", "Manager"));
+    x.AddPolicy("AuthenticatedUsers", policy => policy.RequireRole("Admin", "SuperAdmin", "Manager", "User"));
+});
+
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(connectionString));
@@ -42,7 +51,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
 	options.User.RequireUniqueEmail = true;
 	options.Password.RequiredLength = 8;
 })
-	.AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
 	.AddSignInManager()
 	.AddDefaultTokenProviders();
 
@@ -60,8 +70,6 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 // Repositories
 builder.Services.AddScoped<FeatureRepository>();
 builder.Services.AddScoped<FeatureItemRepository>();
-
-
 
 //// Services
 //builder.Services.AddScoped<AddressService>();
@@ -88,6 +96,19 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    string[] roles = ["SuperAdmin", "Admin", "Manager", "User"];
+
+    foreach (var role in roles)
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+}
 
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode()

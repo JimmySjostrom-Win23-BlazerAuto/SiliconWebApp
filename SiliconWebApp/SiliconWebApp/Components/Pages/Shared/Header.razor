@@ -1,4 +1,7 @@
-﻿<header>
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<header>
     <div class="container">
         <a id="logo" href="/">
             <img src="/images/Silicon-Logotype-Light.svg" alt="Silicon Logo" />
@@ -12,14 +15,16 @@
                 <AuthorizeView>
                     <Authorized>
                         <NavLink class="menu-link" href="/courses">Courses</NavLink>
-                        <NavLink href="/account/deets">Account</NavLink>
+                        <NavLink class="menu-link" href="/account/deets">Account</NavLink>
 
-
-                     </Authorized>
+                        @if (IsAdmin)
+                        {
+                            <NavLink class="menu-link" href="/admin/admin">Admin</NavLink>
+                        }
+                    </Authorized>
                 </AuthorizeView>
 
                 <NavLink class="menu-link" href="/contact">Contact</NavLink>
-
             </nav>
         </div>
 
@@ -33,7 +38,6 @@
         </div>
 
         <div id="account-buttons">
-
             <AuthorizeView>
                 <Authorized>
                     <div class="profile">
@@ -51,6 +55,7 @@
                 </NotAuthorized>
             </AuthorizeView>
         </div>
+
         <div class="btn-mobile" onclick="toggleMenu()">
             <button>
                 <i class="fa-solid fa-bars"></i>
@@ -64,3 +69,18 @@
         </div>
     </div>
 </header>
+
+@code {
+    private bool IsAdmin { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity != null && user.Identity.IsAuthenticated)
+        {
+            IsAdmin = user.IsInRole("Admin");
+        }
+    }
+}
