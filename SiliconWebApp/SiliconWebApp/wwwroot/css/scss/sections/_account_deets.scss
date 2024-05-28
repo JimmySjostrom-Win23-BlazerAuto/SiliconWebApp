@@ -162,7 +162,7 @@
             }
 
             .edit-form {
-        
+
 
                 .content {
                     display: grid;
@@ -194,6 +194,71 @@
                         gap: 20px;
                     }
                 }
+            }
+        }
+    }
+
+    .form-container {
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+
+            .form-floating {
+                flex: 1;
+                margin-bottom: 0; // Override the mb-3 class to avoid additional margin
+            }
+
+            .col-md-6 {
+                padding: 0.5rem;
+            }
+        }
+
+        .form-floating {
+            margin-bottom: 1rem;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+
+            button {
+                margin-top: 0;
+            }
+        }
+
+        hr {
+            margin: 2rem 0;
+            border: none;
+            border-top: 1px solid #ccc;
+        }
+
+        .delete-account-section {
+            h4 {
+                margin-bottom: 1rem;
+                color: var(--color-theme);
+            }
+
+            .text-danger {
+                margin-bottom: 1rem;
+            }
+
+            .form-check {
+                display: flex;
+                align-items: center;
+
+                .form-check-input {
+                    margin-right: 0.5rem;
+                }
+
+                .form-check-label {
+                    margin: 0;
+                }
+            }
+
+            .btn-danger {
+                margin-top: 1rem;
             }
         }
     }

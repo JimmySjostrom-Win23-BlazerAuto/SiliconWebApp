@@ -9,6 +9,19 @@
     gap: 12px;
 }
 
+.btn-danger {
+    @include button;
+    background: var(--color-theme);
+    color: var(--color-white);
+    border: none;
+
+    &:hover {
+        text-decoration: none;
+        background: var(--color-danger);
+        color: var(--color-white);
+    }
+}
+
 .btn-theme {
     @include button;
     background: var(--color-theme);

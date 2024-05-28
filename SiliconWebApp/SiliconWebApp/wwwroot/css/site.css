@@ -371,6 +371,25 @@ a:hover {
   color: white;
 }
 
+.btn-danger {
+  border-radius: 6px;
+  text-align: center;
+  font-size: 14px;
+  padding: 8px 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-theme);
+  color: var(--color-white);
+  border: none;
+}
+.btn-danger:hover {
+  text-decoration: none;
+  background: var(--color-danger);
+  color: var(--color-white);
+}
+
 .btn-theme {
   border-radius: 6px;
   text-align: center;
@@ -1471,6 +1490,54 @@ footer .container .social-media {
   margin: 20px 0;
   display: flex;
   gap: 20px;
+}
+.account-deets .form-container .row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.account-deets .form-container .row .form-floating {
+  flex: 1;
+  margin-bottom: 0;
+}
+.account-deets .form-container .row .col-md-6 {
+  padding: 0.5rem;
+}
+.account-deets .form-container .form-floating {
+  margin-bottom: 1rem;
+}
+.account-deets .form-container .form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.account-deets .form-container .form-buttons button {
+  margin-top: 0;
+}
+.account-deets .form-container hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+.account-deets .form-container .delete-account-section h4 {
+  margin-bottom: 1rem;
+  color: var(--color-theme);
+}
+.account-deets .form-container .delete-account-section .text-danger {
+  margin-bottom: 1rem;
+}
+.account-deets .form-container .delete-account-section .form-check {
+  display: flex;
+  align-items: center;
+}
+.account-deets .form-container .delete-account-section .form-check .form-check-input {
+  margin-right: 0.5rem;
+}
+.account-deets .form-container .delete-account-section .form-check .form-check-label {
+  margin: 0;
+}
+.account-deets .form-container .delete-account-section .btn-danger {
+  margin-top: 1rem;
 }
 
 .courses {
