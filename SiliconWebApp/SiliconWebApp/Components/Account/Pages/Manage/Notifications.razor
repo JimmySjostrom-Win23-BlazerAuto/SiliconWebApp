@@ -1,0 +1,98 @@
+﻿@page "/Account/Manage/Notifications"
+
+@rendermode InteractiveServer
+
+<div class="notifications">
+	<div class="title">
+		<h1>Notifications</h1>
+	</div>
+
+	<EditForm FormName="subscribe" Model="SubscribeForm" OnValidSubmit="OnValidSubmit" method="post" novalidate>
+		<DataAnnotationsValidator />
+		<ValidationSummary class="text-danger" role="alert" />
+
+		<div class="alternative">
+			<h4>Preferred email for notifications</h4>
+		</div>
+
+		<div class="form-email">
+			<div class="input-group">
+				<i class="fa-regular fa-envelope"></i>
+				<InputText type="email" @bind-Value="SubscribeForm.Email" placeholder="Enter your email" />
+			</div>
+			<div class="form-buttons">
+				<button class="btn-gray" type="reset">Cancel</button>
+				<button class="btn-theme" type="submit">Save changes</button>
+			</div>
+			<ValidationMessage For="@(() => SubscribeForm.Email)" class="text-danger" />
+		</div>
+	</EditForm>
+
+	<div id="theme-switch" class="btn-switch">
+		<label class="switch" for="switch-mode">
+			<input type="checkbox" id="switch-mode" />
+			<span class="slider round"></span>
+		</label>
+		<h3>Subscribe to Newsletter</h3>
+		<p>Nec, posuere non felis duis massa vitae aliquet interdum scelerisque. Neque ullamcorper.</p>
+	</div>
+
+	<div id="theme-switch" class="btn-switch">
+		<label class="switch" for="switch-mode">
+			<input type="checkbox" id="switch-mode" />
+			<span class="slider round"></span>
+		</label>
+		<h3>Use Dark Mode Theme in Application</h3>
+		<p>Tortor massa porttitor enim tristique neque fermentum sed.</p>
+	</div>
+
+</div>
+
+
+
+@code {
+	[SupplyParameterFromQuery]
+	public string StatusMessage { get; set; } = "* Yes, I agree to the terms and privacy policy.";
+
+	[SupplyParameterFromForm]
+	public SubscribeFormModel SubscribeForm { get; set; } = new SubscribeFormModel();
+
+	private async Task OnValidSubmit()
+	{
+		try
+		{
+			var result = await Http.PostAsJsonAsync("https://newsletterprovider-js.azurewebsites.net/api/Subscribe?code=9PlRG-_rKbT5q3ftft4HFZ3IGd-uFaCPUS4bn3zU1_G4AzFue4amTQ%3D%3D", SubscribeForm);
+			if (result.IsSuccessStatusCode)
+				StatusMessage = "Thank you for subscribing!"; // Change to return code from the api.
+		}
+		catch
+		{
+			SubscribeForm = new SubscribeFormModel();
+			StatusMessage = "Unable to subscribe right now. Please try again later.";
+		}
+
+		SubscribeForm = new SubscribeFormModel();
+		await ResetStatusMessage(); // Does not work yet. Figure out why.
+	}
+
+	private async Task ResetStatusMessage()
+	{
+		await Task.Delay(2000);
+		StatusMessage = string.Empty;
+		StateHasChanged();
+	}
+
+	public class SubscribeFormModel
+	{
+		[EmailAddress]
+		[Required(ErrorMessage = "You must provide an email address")]
+		[Display(Name = "Email address", Prompt = "Your Email")]
+		public string Email { get; set; } = null!;
+		public bool DailyNewsletter { get; set; }
+		public bool AdvertisingUpdates { get; set; }
+		public bool WeekinReview { get; set; }
+		public bool EventUpdates { get; set; }
+		public bool StartupsWeekly { get; set; }
+		public bool Podcasts { get; set; }
+	}
+}

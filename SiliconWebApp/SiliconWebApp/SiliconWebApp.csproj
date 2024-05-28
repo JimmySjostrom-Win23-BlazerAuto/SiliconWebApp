@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\Pages\Account\" />
     <Folder Include="Data\Queries\" />
   </ItemGroup>
 
