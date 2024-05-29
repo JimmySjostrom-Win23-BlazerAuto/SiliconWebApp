@@ -74,7 +74,7 @@
 	private async Task OnValidSubmit()
 	{
 		try
-		{
+		{											
 			var result = await Http.PostAsJsonAsync("https://newsletterprovider-js.azurewebsites.net/api/Subscribe?code=9PlRG-_rKbT5q3ftft4HFZ3IGd-uFaCPUS4bn3zU1_G4AzFue4amTQ%3D%3D", SubscribeForm);
 			if (result.IsSuccessStatusCode)
 				StatusMessage = "Thank you for subscribing!"; // Change to return code from the api.
