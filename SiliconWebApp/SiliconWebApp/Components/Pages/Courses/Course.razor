@@ -1,0 +1,14 @@
+﻿@page "/courses/{CourseId}"
+@using SiliconWebApp.Models
+@using System.Threading.Tasks
+
+<h1>Course Details {CourseId}</h1>
+
+
+
+@code {
+    [Parameter]
+    public string CourseId { get; set; }
+
+ 
+}

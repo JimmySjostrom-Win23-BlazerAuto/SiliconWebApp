@@ -33,15 +33,17 @@
 			{
 				@foreach (var course in courses)
 				{
-					var link = $"courses/details/{course.Id}";
+					var link = $"courses/{course.Id}";
 					<a class="course" href="@link" asp-route-id="course.Id">
+					
+
 						@if (course.IsBestseller)
 						{
 							<div class="bestseller">Best Seller</div>
 						}
 						<span class="btn btn-circle bookmark"><i class="fa-regular fa-bookmark"></i></span>
-					@* 	<img src="@course.ImageUri" alt="@course.Title" /> *@
-					<img src="/images/course_1.svg" />
+						@* 	<img src="@course.ImageUri" alt="@course.Title" /> *@
+						<img src="/images/course_1.svg" />
 
 						<div class="content">
 							<h5 class="title">@course.Title</h5>
@@ -77,7 +79,7 @@
 		if (response.IsSuccessStatusCode)
 		{
 			var jsonResponse = await response.Content.ReadAsStringAsync();
-			Console.WriteLine(jsonResponse); 
+			Console.WriteLine(jsonResponse);
 
 			try
 			{
@@ -94,8 +96,8 @@
 								Author = course.TryGetProperty("authors", out var authors) && authors[0].TryGetProperty("name", out var author) ? author.GetString() : string.Empty,
 								Price = course.TryGetProperty("prices", out var pricesJson) ? $"{pricesJson.GetProperty("currency").GetString()} {pricesJson.GetProperty("price").GetDouble()}" : string.Empty,
 								DiscountPrice = course.TryGetProperty("prices", out var discountJson) && discountJson.GetProperty("discount").GetDouble() > 0
-									? $"{discountJson.GetProperty("currency").GetString()} {discountJson.GetProperty("price").GetDouble() - discountJson.GetProperty("discount").GetDouble()}"
-									: null,
+										? $"{discountJson.GetProperty("currency").GetString()} {discountJson.GetProperty("price").GetDouble() - discountJson.GetProperty("discount").GetDouble()}"
+										: null,
 								Hours = course.TryGetProperty("hours", out var hours) ? hours.GetString() : string.Empty,
 								LikesInProcent = course.TryGetProperty("likesInProcent", out var likesInProcent) ? likesInProcent.GetString() : string.Empty,
 								LikesInNumbers = course.TryGetProperty("likes", out var likes) ? likes.GetString() : string.Empty
