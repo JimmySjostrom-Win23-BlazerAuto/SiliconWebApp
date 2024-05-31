@@ -70,12 +70,11 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 // Repositories
 builder.Services.AddScoped<FeatureRepository>();
 builder.Services.AddScoped<FeatureItemRepository>();
+builder.Services.AddScoped<OrderRepository>();
 
 //// Services
-//builder.Services.AddScoped<AddressService>();
-//builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<FeatureService>();
-
+builder.Services.AddScoped<OrderService>();
 
 var app = builder.Build();
 

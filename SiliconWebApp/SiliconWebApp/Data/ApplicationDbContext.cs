@@ -10,5 +10,5 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<UserAddress> UserAddresses { get; set; }
     public DbSet<FeatureEntity> Features { get; set; }
     public DbSet<FeatureItemEntity> FeaturesItems { get; set; }
-    public DbSet<SavedCoursesEntity> SavedCourses { get; set; }
+    public DbSet<OrderEntity> Orders { get; set; }
 }

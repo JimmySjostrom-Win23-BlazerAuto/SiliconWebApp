@@ -1,14 +1,72 @@
 ﻿@page "/courses/{CourseId}"
-@using SiliconWebApp.Models
-@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components
+@using SiliconWebApp.Entities
+@using SiliconWebApp.Services
+@using System.Security.Claims
+@inject OrderService OrderService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<h1>Course Details {CourseId}</h1>
+@rendermode InteractiveServer
+<h1>Course Details</h1>
 
-
+<div>
+    <h2>Course ID: @CourseId</h2>
+    <button @onclick="OrderCourse">Order Course</button>
+    @if (OrderPlaced)
+    {
+        <p>Order placed</p>
+    }
+</div>
 
 @code {
     [Parameter]
-    public string CourseId { get; set; }
+    public string? CourseId { get; set; }
 
- 
+    private bool OrderPlaced { get; set; } = false;
+
+    private async Task OrderCourse()
+    {
+        Console.WriteLine(CourseId);
+        Console.WriteLine(OrderPlaced);
+
+        if (CourseId != null)
+        {
+            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authenticationState.User;
+
+            Console.WriteLine(user);
+
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim != null)
+            {
+                var currentUserId = userIdClaim.Value;
+
+                Console.WriteLine(currentUserId);
+                var order = new OrderEntity
+                    {
+                        CourseId = CourseId,
+                        UserId = currentUserId
+                    };
+
+                Console.WriteLine($"Order CourseId: {order.CourseId}");
+                Console.WriteLine($"Order UserId: {order.UserId}");
+
+                try
+                {
+                    await OrderService.CreateOrderAsync(order);
+                    OrderPlaced = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error placing the order: {ex.Message}");
+                }
+               
+                StateHasChanged();
+            }
+            else
+            {
+                Console.WriteLine("User ID claim not found.");
+            }
+        }
+    }
 }
