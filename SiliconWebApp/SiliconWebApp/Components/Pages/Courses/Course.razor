@@ -17,6 +17,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject HttpClient Http
 
+<SiliconWebApp.Components.Pages.Shared.Header />
+
 <PageTitle>Course Details</PageTitle>
 
 <section class="course-details">
@@ -62,6 +64,8 @@
         </div>
     </div>
 </section>
+
+<SiliconWebApp.Components.Pages.Shared.Footer />
 
 @code {
     private CourseCardModel course;
