@@ -1,4 +1,4 @@
-﻿@page "/courses/testtest{CourseId}"
+﻿@page "/courses/{CourseId}"
 
 @using System.Text.Json
 @using Microsoft.AspNetCore.Authorization
@@ -21,46 +21,112 @@
 
 <PageTitle>Course Details</PageTitle>
 
-<section class="course-details">
-    <div class="container">
+<section class="coursedeets">
+    <div class="course-header">
         @if (course != null)
         {
-            <div class="course">
-                @if (course.IsBestseller)
-                {
-                    <div class="bestseller">Best Seller</div>
-                }
-                <img src="/images/course_1.svg" alt="@course.Title" class="background-image" />
-                <div class="content">
-                    <h5 class="title">@course.Title</h5>
-                    <p class="author">By @course.Author</p>
-                    <div class="pricing">
-                        @if (!string.IsNullOrEmpty(course.DiscountPrice))
-                        {
-                            <div class="discount">@course.DiscountPrice</div>
-                        }
-                        <div class="price @(!string.IsNullOrEmpty(course.DiscountPrice)? "discount-enabled" : "")">@course.Price</div>
-                    </div>
-                    <div class="footer">
-                        <div class="hours">
-                            <i class="fa-regular fa-thumbs-up"></i> @course.LikesInProcent (@course.LikesInNumbers)
-                        </div>
-                    </div>
+            <img src="/images/course_1big.svg" alt="@course.Title" class="background-image" />
+            <div class="coursetext">
+                <h1>@course.Title</h1>
+                <p>Ingress Text</p>
+                <div class="ratings">
+                    <span>Star Ratings</span>
+                    <span>@course.LikesInProcent</span>
+                    <span>@course.LikesInNumbers</span>
                 </div>
+                <p class="author">By @course.Author</p>
             </div>
         }
         else
         {
             <p>Loading course details...</p>
         }
+    </div>
 
-        <div>
-            <h2>Course ID: @CourseId</h2>
-            <button @onclick="OrderCourse">Order Course</button>
-            @if (OrderPlaced)
-            {
-                <p>Order placed</p>
-            }
+
+
+
+    <div class="container">
+        <div class="grid-container-course">
+            <section class="course-description">
+                <h2>Course Description</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+
+                <h2>What You Will Learn</h2>
+                <ul>
+                    <li>Learning point 1</li>
+                    <li>Learning point 2</li>
+                    <li>Learning point 3</li>
+                    <li>Learning point 4</li>
+                    <li>Learning point 5</li>
+                </ul>
+            </section>
+
+            <section class="aside">
+                <h2>This Course Includes</h2>
+                <ul>
+                    <li>Feature 1</li>
+                    <li>Feature 2</li>
+                    <li>Feature 3</li>
+                    <li>Feature 4</li>
+                    <li>Feature 5</li>
+                    <li>Feature 6</li>
+                </ul>
+                <div class="price">
+                    <span>Price: @(course != null ? course.Price : "Loading...")</span>
+                    <button @onclick="OrderCourse">Join Course</button>
+                    @if (OrderPlaced)
+                    {
+                        <p>Order placed</p>
+                    }
+                </div>
+            </section>
+
+            <section class="program">
+                <h2>Program Details</h2>
+                <div class="program-item">
+                    <div class="program-number">1</div>
+                    <div class="program-text">
+                        <h3>Title 1</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    </div>
+                </div>
+                <div class="program-item">
+                    <div class="program-number">2</div>
+                    <div class="program-text">
+                        <h3>Title 2</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    </div>
+                </div>
+                <div class="program-item">
+                    <div class="program-number">3</div>
+                    <div class="program-text">
+                        <h3>Title 3</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    </div>
+                </div>
+                <div class="program-item">
+                    <div class="program-number">4</div>
+                    <div class="program-text">
+                        <h3>Title 4</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    </div>
+                </div>
+                <div class="program-item">
+                    <div class="program-number">5</div>
+                    <div class="program-text">
+                        <h3>Title 5</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    </div>
+                </div>
+                <div class="program-item">
+                    <div class="program-number">6</div>
+                    <div class="program-text">
+                        <h3>Title 6</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </section>
@@ -137,7 +203,6 @@
             }
         }
     }
-
 
     private bool OrderPlaced { get; set; } = false;
 

@@ -1757,6 +1757,120 @@ footer .container .social-media {
   margin-right: 5px;
 }
 
+.coursedeets {
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
+.coursedeets .course-header {
+  position: relative;
+  text-align: center;
+  color: var(--color-white);
+  padding: 2rem 0;
+}
+.coursedeets .coursetext {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  text-align: center;
+  color: var(--color-white);
+}
+.coursedeets .coursetext h1 {
+  color: var(--color-white);
+}
+.coursedeets .coursetext p {
+  color: var(--color-gray-400);
+}
+.coursedeets .background-image {
+  position: relative;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+}
+.coursedeets .container {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+}
+.coursedeets .container .grid-container-course {
+  display: grid;
+  grid-template-areas: "description includes" "program includes";
+  gap: 2rem;
+}
+.coursedeets .container .grid-container-course .course-description {
+  grid-area: description;
+}
+.coursedeets .container .grid-container-course .course-description h2 {
+  margin-top: 1rem;
+}
+.coursedeets .container .grid-container-course .course-description ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+.coursedeets .container .grid-container-course .course-description ul li {
+  margin-bottom: 0.5rem;
+}
+.coursedeets .container .grid-container-course .aside {
+  grid-area: includes;
+}
+.coursedeets .container .grid-container-course .aside h2 {
+  margin-top: 1rem;
+}
+.coursedeets .container .grid-container-course .aside ul {
+  list-style-type: none;
+  padding: 0;
+}
+.coursedeets .container .grid-container-course .aside ul li {
+  margin-bottom: 0.5rem;
+}
+.coursedeets .container .grid-container-course .aside .price {
+  margin-top: 2rem;
+}
+.coursedeets .container .grid-container-course .aside .price span {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.coursedeets .container .grid-container-course .aside .price button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.coursedeets .container .grid-container-course .aside .price button:hover {
+  background-color: #0056b3;
+}
+.coursedeets .container .grid-container-course .program {
+  grid-area: program;
+}
+.coursedeets .container .grid-container-course .program h2 {
+  margin-top: 1rem;
+}
+.coursedeets .container .grid-container-course .program .program-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+.coursedeets .container .grid-container-course .program .program-item .program-number {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+.coursedeets .container .grid-container-course .program .program-item .program-text h3 {
+  margin-top: 0;
+}
+
 #cookie-consent {
   padding: 1.5rem 0 !important;
   border-radius: 0;
