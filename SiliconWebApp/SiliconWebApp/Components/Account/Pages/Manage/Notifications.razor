@@ -2,6 +2,7 @@
 
 @using System.Security.Claims
 @using Newtonsoft.Json
+@using SiliconWebApp.Models
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject HttpClient HttpClient
@@ -33,11 +34,10 @@
         <div id="theme-switch" class="btn-switch">
             <label class="switch" for="subscribe-switch-mode">
                 <input type="checkbox" id="subscribe-switch-mode" @bind="IsSubscribed" />
-
                 <span class="slider round"></span>
             </label>
-            <h3>Subscribe to Newsletter</h3>
-            <p>Nec, posuere non felis duis massa vitae aliquet interdum scelerisque. Neque ullamcorper.</p>
+            <h6>Notifications</h6>
+            <p>The slider are currently not operational. To turn notifications on or off you need to use the appropriate button below.</p>
         </div>
 
         <!-- Second slider -->
@@ -46,10 +46,10 @@
                 <input type="checkbox" id="dark-mode-switch-mode" />
                 <span class="slider round"></span>
             </label>
-            <h3>Use Dark Mode Theme in Application</h3>
-            <p>Tortor massa porttitor enim tristique neque fermentum sed.</p>
+            <h6>Use Dark Mode Theme in Application</h6>
+            <p>Dark mode currently not available.</p>
         </div>
-
+        
         <div class="form-buttons">
             <button class="btn-gray" type="reset">Cancel</button>
             <button class="btn-theme" type="submit">Save changes</button>
@@ -59,11 +59,17 @@
             }
         </div>
     </EditForm>
+
+    <div class="form-buttons">
+        <button class="btn-theme" @onclick="Subscribe">Notifications On</button>
+        <button class="btn-gray" @onclick="Unsubscribe">Notifications Off</button>
+    </div>   
+    <p>The checks are currently not working. Turn off when already off will give an error.</p>
 </div>
 
 @code {
     private bool IsSubscribed { get; set; } = false;
-
+   
     [SupplyParameterFromQuery]
     public string StatusMessage { get; set; } = "";
 
@@ -80,8 +86,7 @@
             if (!string.IsNullOrEmpty(userEmail))
             {
                 SubscribeForm.Email = userEmail;
-
-                // Check if the user is already subscribed
+                              
                 var response = await HttpClient.GetAsync($"https://newsletterprovider-js.azurewebsites.net/api/CheckSubscription?email={userEmail}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -90,7 +95,6 @@
                     IsSubscribed = isSubscribed;
                 }
 
-                // Set other properties to true if subscribed
                 if (IsSubscribed)
                 {
                     SubscribeForm.DailyNewsletter = true;
@@ -108,7 +112,6 @@
     {
         try
         {
-            // Submit the form logic here
             var result = await HttpClient.PostAsJsonAsync("https://newsletterprovider-js.azurewebsites.net/api/Subscribe?code=9PlRG-_rKbT5q3ftft4HFZ3IGd-uFaCPUS4bn3zU1_G4AzFue4amTQ%3D%3D", SubscribeForm);
             if (result.IsSuccessStatusCode)
             {
@@ -119,6 +122,63 @@
         {
             SubscribeForm = new SubscribeFormModel();
             StatusMessage = "Unable to save changes. Please try again later.";
+        }
+    }
+
+    private async Task Subscribe()
+    {
+        try
+        {
+            var model = new SubscribeFormModel
+                {
+                    Email = SubscribeForm.Email,
+                    DailyNewsletter = true,
+                    AdvertisingUpdates = true,
+                    WeekinReview = true,
+                    EventUpdates = true,
+                    StartupsWeekly = true,
+                    Podcasts = true
+                };
+
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+            var response = await HttpClient.PostAsync($"https://siliconwebapi-js.azurewebsites.net/api/Subscribe", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                StatusMessage = "Subscribed successfully!";
+            }
+            else
+            {
+                StatusMessage = "Unable to subscribe. Please try again later.";
+            }
+        }
+        catch
+        {
+            StatusMessage = "Unable to subscribe. Please try again later.";
+        }
+    }
+
+    private async Task Unsubscribe()
+    {
+        try
+        {
+            var email = SubscribeForm.Email;
+
+            var response = await HttpClient.DeleteAsync($"https://siliconwebapi-js.azurewebsites.net/api/Subscribe?email={email}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                StatusMessage = "Unsubscribed successfully!";
+            }
+            else
+            {
+                StatusMessage = "Unable to unsubscribe. Please try again later.";
+            }
+        }
+        catch
+        {
+            StatusMessage = "Unable to unsubscribe. Please try again later.";
         }
     }
 

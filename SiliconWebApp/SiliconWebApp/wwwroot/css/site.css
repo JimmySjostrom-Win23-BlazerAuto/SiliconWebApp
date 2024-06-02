@@ -1351,7 +1351,10 @@ footer .container .social-media {
   margin-top: 50px;
 }
 .account-deets aside .profile {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 .account-deets aside .profile .profile-image {
   position: relative;
@@ -1394,7 +1397,6 @@ footer .container .social-media {
   margin-bottom: 0;
   margin-bottom: 2rem;
   width: 100%;
-  justify-content: flex-start;
 }
 .account-deets aside .profile .profile-info p {
   line-height: 160%;
@@ -1546,6 +1548,128 @@ footer .container .social-media {
 .account-deets .title h2 {
   font-size: 2.5em;
 }
+.account-deets .notifications #theme-switch .btn-switch {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.account-deets .notifications #theme-switch .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.account-deets .notifications #theme-switch .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.account-deets .notifications #theme-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.account-deets .notifications #theme-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+.account-deets .notifications #theme-switch input:checked + .slider {
+  background-color: #4cff00;
+}
+.account-deets .notifications #theme-switch input:focus + .slider {
+  box-shadow: 0 0 1px #4cff00;
+}
+.account-deets .notifications #theme-switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.account-deets .notifications #theme-switch .switch-content {
+  flex: 1;
+  margin-left: 10px;
+}
+.account-deets .notifications #theme-switch h6 {
+  margin-bottom: 5px;
+}
+.account-deets .notifications #theme-switch p {
+  margin-top: 5px;
+}
+.account-deets .notifications #theme-switch-2 .btn-switch {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.account-deets .notifications #theme-switch-2 .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.account-deets .notifications #theme-switch-2 .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.account-deets .notifications #theme-switch-2 .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.account-deets .notifications #theme-switch-2 .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+.account-deets .notifications #theme-switch-2 input:checked + .slider {
+  background-color: #4cff00;
+}
+.account-deets .notifications #theme-switch-2 input:focus + .slider {
+  box-shadow: 0 0 1px #4cff00;
+}
+.account-deets .notifications #theme-switch-2 input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.account-deets .notifications #theme-switch-2 .switch-content {
+  flex: 1;
+  margin-left: 10px;
+}
+.account-deets .notifications #theme-switch-2 h6 {
+  margin-bottom: 5px;
+}
+.account-deets .notifications #theme-switch-2 p {
+  margin-top: 5px;
+}
 .account-deets .notifications .title h1 {
   margin-bottom: 1rem;
 }
@@ -1578,24 +1702,16 @@ footer .container .social-media {
 .account-deets .notifications .form-email .input-group input {
   padding-left: 45px;
 }
-.account-deets .notifications .form-email .button-group {
+.account-deets .notifications .form-buttons {
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 3rem;
 }
-.account-deets .notifications .form-email .button-group button {
+.account-deets .notifications .form-buttons button {
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: none;
   cursor: pointer;
-}
-.account-deets .notifications .form-email .button-group .btn-gray {
-  background-color: #ccc;
-  color: #fff;
-}
-.account-deets .notifications .form-email .button-group .btn-theme {
-  background-color: #007bff;
-  color: #fff;
 }
 
 .courses {
